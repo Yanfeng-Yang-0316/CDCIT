@@ -20,4 +20,4 @@ matplotlib==3.7.0
 tqdm  
 
 ## Usage
-There is detailed description of function perform_diffusion_crt(...) in diffusion_crt.py.
+There is detailed description of function **perform_diffusion_crt()** in diffusion_crt.py.
