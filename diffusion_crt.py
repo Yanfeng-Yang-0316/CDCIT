@@ -14,8 +14,8 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                   centralize=False,sampling_model='ddpm'):
     '''
     xxx,yyy,zzz: triple used to train diffusion model, learning Y|Z. and when computing CMI, we use 1-nn to learn X|Z. 
-    you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and use 1-nn to learn Y|Z. 
-    but that doesn't effect the outcome because X and Y is changeable. 
+    you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and when computing CMI, we use 1-nn to learn Y|Z. 
+    but that doesn't effect the outcome because in terms of R.V., X and Y is changeable. 
     actually, we also tried to use both diffusion model and 1-nn to learn Y|Z (or X|Z), which will have a little bit worse and unstable performance.
     
     the size of xxx, yyy and zzz is [N,1], [N,1] and [N,dz]. the size of xxx_crt, yyy_crt, zzz_crt is [n,1], [n,1], [n,dz]. 
