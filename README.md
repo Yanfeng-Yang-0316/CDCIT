@@ -1,5 +1,5 @@
 # CDCIT
-This is the source code of **Conditional Diffusion Models Based Conditional Independence Testing** (CDCIT).
+This is the source code of **Conditional Diffusion Models Based Conditional Independence Testing** (CDCIT) acceepted by AAAI 2025. Our algorithm can test the conditional independence between random variable $X$, $Y$ given $Z$.
 
 
 ## Environment Requirements
