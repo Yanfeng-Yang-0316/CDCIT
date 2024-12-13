@@ -3,7 +3,7 @@ This is the source code of **Conditional Diffusion Models Based Conditional Inde
 
 $H_0: X ⫫ Y|Z  \text{ \quad v.s. \quad }  H_1:X \not ⫫ Y|Z,$  
 
-which is an important problem in statistics, machine learning and causal structure learning.
+which is an important problem in statistics, machine learning and causal structure learning. The random variables $X, Y, Z$ can represent gene expression levels, a characterization of a particular disease, or clinical information.
 
 
 ## Environment Requirements
