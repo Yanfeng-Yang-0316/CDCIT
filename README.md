@@ -1,6 +1,6 @@
 Underconstruction...
 # CDCIT
-This is the source code of **Conditional Diffusion Models Based Conditional Independence Testing**.
+This is the source code of **Conditional Diffusion Models Based Conditional Independence Testing** (CDCIT).
 
 
 ## Environment Requirements
