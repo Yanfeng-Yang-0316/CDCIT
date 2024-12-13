@@ -2,7 +2,6 @@
 import numpy as np
 import warnings
 
-
 funcs = {
     "linear": lambda x: x,
     "square": lambda x: x ** 2,
