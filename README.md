@@ -3,7 +3,7 @@ This is the source code of **Conditional Diffusion Models Based Conditional Inde
 
 $H_0: X ⫫ Y|Z  \text{ \quad v.s. \quad }  H_1:X \not ⫫ Y|Z,$  
 
-which is an important problem in statistics, machine learning and causal structure learning. The random variables $X, Y, Z$ can represent gene expression levels, a characterization of a particular disease, or clinical information, and they may also be high-dimensional random variables. We utilize [diffusion models](https://arxiv.org/abs/2011.13456) and the [conditional randomization test (CRT)](https://neurips.cc/virtual/2023/poster/70571) to identify the conditional independence relationships.
+which is an important problem in statistics, machine learning and causal structure learning. The random variables $X, Y, Z$ can represent gene expression levels, a characterization of a particular disease, or clinical information, and they may also be high-dimensional random variables. We utilize [diffusion models](https://arxiv.org/abs/2011.13456) and the [conditional randomization test (CRT)](https://arxiv.org/abs/2304.04183) to identify the conditional independence relationships.
 
 
 ## Environment Requirements
