@@ -14,9 +14,15 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                   verbose=False, seed=None, stat='cmi',
                   centralize=False,sampling_model='ddpm'):
     '''
-    xxx,yyy,zzz: triple used to train diffusion model, learning Y|Z. and in nnlscit, we use 1-nn to learn X|Z. you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and use 1-nn to learn Y|Z. but that doesn't effect the outcome because X and Y is changeable. actually, we also tried to use both diffusion model and 1-nn to learn Y|Z (or X|Z), which will have a little bit worse and unstable performance.
+    xxx,yyy,zzz: triple used to train diffusion model, learning Y|Z. and when computing CMI, we use 1-nn to learn X|Z. 
+    you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and use 1-nn to learn Y|Z. 
+    but that doesn't effect the outcome because X and Y is changeable. 
+    actually, we also tried to use both diffusion model and 1-nn to learn Y|Z (or X|Z), which will have a little bit worse and unstable performance.
     
-    the size of xxx, yyy and zzz is [N,1], [N,1] and [N,dz]. the size of xxx_crt, yyy_crt, zzz_crt is [n,1], [n,1], [n,dz]. although X and Y are 1-dimensional tabular data, you can change it to high dimensional unstructural data. note that our statistics CMI can only compute tabular data (maybe high-dimensional). For unstructural data, you can use a VAE to easily convert it into vectors, and use our CMI statistics, or just find some neural maps T(X,Y,Z) to conduct CRT. 
+    the size of xxx, yyy and zzz is [N,1], [N,1] and [N,dz]. the size of xxx_crt, yyy_crt, zzz_crt is [n,1], [n,1], [n,dz]. 
+    although X and Y are 1-dimensional tabular data, you can change it to high dimensional unstructural data. 
+    note that our statistics CMI can only compute tabular data (maybe high-dimensional). 
+    For unstructural data, you can use a VAE to easily convert it into vectors, and use our CMI statistics, or just find some neural maps T(X,Y,Z) to conduct CRT. 
     
     xxx_crt,yyy_crt,zzz_crt: triple used to compute T(X,Y,Z).
     
@@ -28,11 +34,17 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     
     repeat: B in the paper, the number of X^(b). repeat should be bigger than 1/alpha. e.g., when alpha=0.05, repeat should >=21.
     
-    stat: the defalut is 'cmi': conditional mutual information (CMI), we also provided 'corr': pearson corr, 'rdc': Randomized Dependence Coefficient. you can find more information in model.py. we found that 'cmi' has the best performance on controling type I error. 'rdc' is faster, but with a little bit worse performance.
+    stat: the defalut is 'cmi': conditional mutual information (CMI), we also provided 'corr': pearson corr, 'rdc': Randomized Dependence Coefficient. 
+    you can find more information in model.py. we found that 'cmi' has the best performance on controling type I error. 
+    'rdc' is faster, but with a little bit worse performance.
     
-    sampling_model: sampling_model='score' means using the training and sampling method in https://arxiv.org/abs/2011.13456. sampling_model='ddpm' means using training and sampling method in https://arxiv.org/abs/2006.11239.
+    sampling_model: sampling_model='score' means using the training and sampling method in https://arxiv.org/abs/2011.13456. 
+    sampling_model='ddpm' means using training and sampling method in https://arxiv.org/abs/2006.11239.
     
-    note that we highly recommend users to use sampling_model='ddpm', because ddpm can provide smoother forward process and reverse process, thus outputing better results. sampling_model='ddpm' is especially better when X,Y,Z are high dimensional. simulations in our paper are conducted by sampling_model='score', which is the same way in our paper. but when users are conducting their own cits, they can use both sampling method and find the best one.
+    note that we highly recommend users to use sampling_model='ddpm', because ddpm can provide smoother forward process and reverse process, 
+    thus outputing better results. sampling_model='ddpm' is especially better when X,Y,Z are high dimensional. 
+    simulations in our paper are conducted by sampling_model='score', which is the same way in our paper. 
+    but when users are conducting their own cits, they can use both 'ddpm' and 'score' sampling method and find the best one.
     '''
 
     
