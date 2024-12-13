@@ -1,4 +1,3 @@
-Underconstruction...
 # CDCIT
 This is the source code of **Conditional Diffusion Models Based Conditional Independence Testing** (CDCIT).
 
