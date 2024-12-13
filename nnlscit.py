@@ -15,7 +15,6 @@ from sklearn.neighbors import NearestNeighbors
 import warnings
 
 
-
 eps = 1e-8
 
 def split_XYZ(data, dx, dy):
