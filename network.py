@@ -55,30 +55,12 @@ class ConditionalRes(nn.Module):
         out = gamma.view(-1, self.num_out) * out
         return out
     
-###############↓ is the network for real data, if you care about our work and want to reproduce it, please manually do: control + /############
-class ConditionalGuidedModel(nn.Module):
-    def __init__(self, num_steps, dz):
-        super().__init__()
-        self.lin1 = ConditionalLinear(dz + 1, 128, num_steps)
-        self.lin2 = ConditionalRes(128, 128, num_steps)
-        self.lin3 = ConditionalRes(128, 128, num_steps)
-        self.lin4 = nn.Linear(128, 1)
-
-    def forward(self, x, y_t,  t):
-        eps_pred = torch.cat((x, y_t, ), dim=1)
-        eps_pred = F.softplus(self.lin1(eps_pred, t))
-        eps_pred = F.softplus(self.lin2(eps_pred, t))
-        eps_pred = F.softplus(self.lin3(eps_pred, t))
-        return self.lin4(eps_pred)
-
-###############↓ is the network for simulation, if you care about our work and want to reproduce it, please manually do: control + /############
-
 # class ConditionalGuidedModel(nn.Module):
 #     def __init__(self, num_steps, dz):
 #         super().__init__()
 #         self.lin1 = ConditionalLinear(dz + 1, 128, num_steps)
-#         self.lin2 = ConditionalLinear(128, 128, num_steps)
-#         self.lin3 = ConditionalLinear(128, 128, num_steps)
+#         self.lin2 = ConditionalRes(128, 128, num_steps)
+#         self.lin3 = ConditionalRes(128, 128, num_steps)
 #         self.lin4 = nn.Linear(128, 1)
 
 #     def forward(self, x, y_t,  t):
@@ -87,6 +69,22 @@ class ConditionalGuidedModel(nn.Module):
 #         eps_pred = F.softplus(self.lin2(eps_pred, t))
 #         eps_pred = F.softplus(self.lin3(eps_pred, t))
 #         return self.lin4(eps_pred)
+
+
+class ConditionalGuidedModel(nn.Module):
+    def __init__(self, num_steps, dz):
+        super().__init__()
+        self.lin1 = ConditionalLinear(dz + 1, 128, num_steps)
+        self.lin2 = ConditionalLinear(128, 128, num_steps)
+        self.lin3 = ConditionalLinear(128, 128, num_steps)
+        self.lin4 = nn.Linear(128, 1)
+
+    def forward(self, x, y_t,  t):
+        eps_pred = torch.cat((x, y_t, ), dim=1)
+        eps_pred = F.softplus(self.lin1(eps_pred, t))
+        eps_pred = F.softplus(self.lin2(eps_pred, t))
+        eps_pred = F.softplus(self.lin3(eps_pred, t))
+        return self.lin4(eps_pred)
     
 
     
