@@ -28,4 +28,4 @@ Function run_experiment_con_and_dis(...) is for the simulation under mixed model
 If you want to reproduce our real data analysis, see real_data_breast_cancer.ipynb and read the codes in network.py.
 If you want to know more about how we pre-process the raw data, go to /real_data_breast_cancer/README.md.
 
-If you want to apply our cit to your own triples (X,Y,Z), please read the description in function perform_diffusion_crt(...) and use it, see diffusion_crt.py.
+If you want to apply our cit to your own triples (X,Y,Z), please read the description of function perform_diffusion_crt(...) in diffusion_crt.py and use it.
