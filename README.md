@@ -1,5 +1,5 @@
 # CDCIT
-This is the source code of [**Conditional Diffusion Models Based Conditional Independence Testing**](https://arxiv.org/abs/2412.11744) (CDCIT) acceepted by AAAI 2025. Our algorithm can test the conditional independence between random variable $X$, $Y$ given $Z$, i.e.:  
+This is the source code of [**Conditional Diffusion Models Based Conditional Independence Testing** (CDCIT)](https://arxiv.org/abs/2412.11744) acceepted by AAAI 2025. Our algorithm can test the conditional independence between random variable $X$, $Y$ given $Z$, i.e.:  
 
 $H_0: X ⫫ Y|Z  \text{ \quad v.s. \quad }  H_1:X \not ⫫ Y|Z$  
 
