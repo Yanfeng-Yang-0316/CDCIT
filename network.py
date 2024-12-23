@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
+# partly copy from https://github.com/XzwHan/CARD/blob/main/regression/model.py
 class ConditionalLinear(nn.Module):
     def __init__(self, num_in, num_out, n_steps):
         super(ConditionalLinear, self).__init__()
