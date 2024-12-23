@@ -35,7 +35,7 @@ class ConditionalGuidedModel(nn.Module):
         return self.lin4(eps_pred)
 
 
-# different timeembedding, similar effect
+# easier embedding, similar effect
 class DiffusionModelWithEmbedding(nn.Module):
     def __init__(self, 
                  input_dim, 
