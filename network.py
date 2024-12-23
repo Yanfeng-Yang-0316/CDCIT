@@ -34,7 +34,8 @@ class ConditionalGuidedModel(nn.Module):
         eps_pred = F.softplus(self.lin3(eps_pred, t))
         return self.lin4(eps_pred)
 
-    
+
+# different timeembedding, similar effect
 class DiffusionModelWithEmbedding(nn.Module):
     def __init__(self, 
                  input_dim, 
