@@ -42,8 +42,6 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     
     note that we highly recommend users to use sampling_model='ddpm', because ddpm can provide smoother forward process and reverse process, 
     thus outputing better results. sampling_model='ddpm' is especially better when X,Y,Z are high dimensional. 
-    simulations in our paper are conducted by sampling_model='score', which is the same way in our paper. 
-    but when users are conducting their own cits, they can use both 'ddpm' and 'score' sampling method and find the best one.
     '''
 
     
