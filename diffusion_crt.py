@@ -98,7 +98,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     elif sampling_model=='ddpm':
         lr = 1e-3
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    num_epoch = 1000 
+    num_epoch = 1500 
     if verbose == True:
         print('training diffusion model')
     ema2 = EMA(model)
