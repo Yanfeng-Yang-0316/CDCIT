@@ -66,16 +66,12 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
         yyy_crt = (yyy_crt - yyy_crt.mean())/yyy_crt.std()
         zzz_crt = (zzz_crt - zzz_crt.mean(axis=0))/zzz_crt.std(axis=0)
 
-    dataset_x = torch.from_numpy(zzz[:int(num * 0.8), :]).float() # learn dataset_y| dataset_x, i.e. yyy|zzz
-    dataset_y = torch.from_numpy(yyy[:int(num * 0.8), :]).float()
-    dataset_x_val = torch.from_numpy(zzz[int(num * 0.8):, :]).float()
-    dataset_y_val = torch.from_numpy(yyy[int(num * 0.8):, :]).float()
+    dataset_x = torch.from_numpy(zzz[:int(num), :]).float() # learn dataset_y| dataset_x, i.e. yyy|zzz
+    dataset_y = torch.from_numpy(yyy[:int(num), :]).float()
 
 
     dataset_x = dataset_x.to(device)
     dataset_y = dataset_y.to(device)
-    dataset_x_val = dataset_x_val.to(device)
-    dataset_y_val = dataset_y_val.to(device)
 
     
 
