@@ -9,3 +9,7 @@ which is an important problem in statistics, machine learning and causal structu
 
 ## Usage
 There is detailed description of function **perform_diffusion_crt()** in diffusion_crt.py. Show_case.ipynb also provides the usage.
+
+
+## Update
+2024.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$.
