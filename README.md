@@ -12,4 +12,4 @@ There is detailed description of function **perform_diffusion_crt()** in diffusi
 
 
 ## Update
-2024.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$.
+2024.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
