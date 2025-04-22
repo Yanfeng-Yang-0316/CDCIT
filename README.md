@@ -21,7 +21,7 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 
 ## Reference
 ```bibtex
-@article{Yang_Li_Zhang_Sun_Shu_Chen_Zhang_2025, 
+@article{Yang_2025_cdcit, 
 title={Conditional Diffusion Models Based Conditional Independence Testing}, 
 volume={39}, 
 url={https://ojs.aaai.org/index.php/AAAI/article/view/34354}, 
