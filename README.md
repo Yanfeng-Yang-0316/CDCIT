@@ -11,5 +11,26 @@ which is an important problem in statistics, machine learning and causal structu
 There is detailed description of function **perform_diffusion_crt()** in diffusion_crt.py. Show_case.ipynb also provides the usage.
 
 
+## Acknowledgements
+This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSCIT).
+
+
 ## Update
 2024.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
+
+
+## Reference
+```bibtex
+@article{Yang_Li_Zhang_Sun_Shu_Chen_Zhang_2025, 
+title={Conditional Diffusion Models Based Conditional Independence Testing}, 
+volume={39}, 
+url={https://ojs.aaai.org/index.php/AAAI/article/view/34354}, 
+DOI={10.1609/aaai.v39i21.34354}, 
+number={21}, 
+journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+author={Yang, Yanfeng and Li, Shuai and Zhang, Yingjie and Sun, Zhuoran and Shu, Hai and Chen, Ziqi and Zhang, Renming}, 
+year={2025}, 
+pages={22020-22028} }
+
+
+
