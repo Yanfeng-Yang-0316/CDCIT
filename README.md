@@ -16,7 +16,7 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 
 
 ## Update
-2024.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
+2025.4.19, highdim_XY.ipynb is updated to this repo. It can used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
 
 
 ## Reference
