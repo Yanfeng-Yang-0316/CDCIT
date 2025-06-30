@@ -11,7 +11,7 @@ from tqdm import tqdm
 def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
                   repeat=100, device=torch.device('cuda'), 
                   verbose=False, seed=None, stat='cmi',
-                  centralize=False,sampling_model='ddpm'):
+                  centralize=False,sampling_model='ddpm',return_samples=False):
     '''
     xxx,yyy,zzz: triple used to train diffusion model, learning Y|Z. and when computing CMI, we use 1-nn to learn X|Z. 
     you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and when computing CMI, we use 1-nn to learn Y|Z. 
@@ -40,6 +40,8 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     sampling_model: sampling_model='score' means using the training and sampling method in https://arxiv.org/abs/2011.13456. 
     sampling_model='ddpm' means using training and sampling method in https://arxiv.org/abs/2006.11239.
     sampling_model='ddim' means using training method of DDPM, and use sampling method in https://arxiv.org/abs/2010.02502.
+    
+    return_samples: whether return the last samples.
     
     note that we highly recommend users to use sampling_model='ddpm', because ddpm can provide smoother forward process and reverse process, 
     thus outputing better results. sampling_model='ddpm' is especially better when X,Y,Z are high dimensional. 
@@ -175,7 +177,9 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
         if crt_stat > original:
             count += 1
 
-
-    return count/repeat
+    if return_samples:
+        return count/repeat, y_seq_crt[-1]
+    else:
+        return count/repeat
 
 
