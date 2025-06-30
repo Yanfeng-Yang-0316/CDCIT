@@ -32,7 +32,7 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 
 👊🔥**2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulation. Originally a CDCIT need 60s, but it only need 10s using DDIM!**
 
-DDIM show case:
+DDIM CIT show case:
 ```python
 total_x,total_y,total_z,_,_=data_gen(n_samples=1000, dim=20, test_type=True, noise='gaussian', seed=114)
 xxx=total_x[:500,:]
