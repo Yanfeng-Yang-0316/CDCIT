@@ -34,6 +34,7 @@ p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                             verbose=False, seed=1919, stat='cmi',sampling_model='ddim') # ← see here
 
 print(p_val)
+```
 ## Reference
 ```bibtex
 @article{Yang_2025_cdcit, 
