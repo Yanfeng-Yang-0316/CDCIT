@@ -18,8 +18,21 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 ## Update
 2025.4.19, highdim_XY.ipynb is updated to this repo. It can be used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
 
-2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulation. Originally a CDCIT need 60s, but it only need 10s using DDIM!.
+2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulation. Originally a CDCIT need 60s, but it only need 10s using DDIM!
+DDIM show case:
+total_x,total_y,total_z,_,_=data_gen(n_samples=1000, dim=20, test_type=True, noise='gaussian', seed=114)
+xxx=total_x[:500,:]
+yyy=total_y[:500,:]
+zzz=total_z[:500,:]
 
+xxx_crt=total_x[500:,:]
+yyy_crt=total_y[500:,:]
+zzz_crt=total_z[500:,:]
+p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
+                            repeat=100, device=torch.device('cuda'), 
+                            verbose=False, seed=1919, stat='cmi',sampling_model='ddim') # ← see here
+
+print(p_val)
 ## Reference
 ```bibtex
 @article{Yang_2025_cdcit, 
