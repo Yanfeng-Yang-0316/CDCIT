@@ -101,6 +101,49 @@ def sample_from_diff(model, num_samples, input_dim,cond, alphas_bar_sqrt, one_mi
             traj.append(x_t)
     return traj
 
+def sample_from_ddim(model, num_samples, input_dim, cond, 
+                     alphas_bar_sqrt, one_minus_alphas_bar_sqrt, 
+                     num_steps, eta=0.0, device='cuda'):
+    traj = []
+    x_t = torch.randn(num_samples, input_dim).to(device)
+    traj.append(x_t)
+    
+    for t in reversed(range(num_steps)):
+        t_tensor = torch.full((num_samples,), t, device=device, dtype=torch.long)
+        noise_pred = model(x_t, t_tensor, cond)
+        
+        alpha_bar_t = alphas_bar_sqrt[t] ** 2
+        sqrt_alpha_bar_t = alphas_bar_sqrt[t]
+        sqrt_one_minus_alpha_bar_t = one_minus_alphas_bar_sqrt[t]
+        
+        # 用当前的x_t和预测的噪声，推断x0
+        x0_pred = (x_t - sqrt_one_minus_alpha_bar_t * noise_pred) / sqrt_alpha_bar_t
+
+        if t > 0:
+            alpha_bar_prev = alphas_bar_sqrt[t-1] ** 2
+            sqrt_alpha_bar_prev = alphas_bar_sqrt[t-1]
+
+            # DDIM 的 sigma_t 用于调节噪声量
+            sigma_t = eta * torch.sqrt(
+                (1 - alpha_bar_prev) / (1 - alpha_bar_t) * (1 - alpha_bar_t / alpha_bar_prev)
+            )
+
+            noise = torch.randn_like(x_t) if eta > 0 else 0.0
+
+            # DDIM 更新公式
+            x_t = (
+                sqrt_alpha_bar_prev * x0_pred +
+                torch.sqrt(1 - alpha_bar_prev - sigma_t**2) * noise_pred +
+                sigma_t * noise
+            )
+            traj.append(x_t)
+        else:
+            # 最后一层直接输出 x0_pred
+            x_t = x0_pred
+            traj.append(x_t)
+
+    return traj
+
 # score based generative model like sampling
 def score_sampler(model,shape,x, device,sample_steps=1000,):
     model.eval()

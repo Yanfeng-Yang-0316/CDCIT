@@ -39,6 +39,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     
     sampling_model: sampling_model='score' means using the training and sampling method in https://arxiv.org/abs/2011.13456. 
     sampling_model='ddpm' means using training and sampling method in https://arxiv.org/abs/2006.11239.
+    sampling_model='ddim' means using training method of DDPM, and use sampling method in https://arxiv.org/abs/2010.02502.
     
     note that we highly recommend users to use sampling_model='ddpm', because ddpm can provide smoother forward process and reverse process, 
     thus outputing better results. sampling_model='ddpm' is especially better when X,Y,Z are high dimensional. 
@@ -76,7 +77,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     num_steps = 1000
         
     
-    if sampling_model=='ddpm':
+    if sampling_model=='ddpm' or sampling_model=='ddim':
         betas=make_beta_schedule(schedule="linear", num_timesteps=num_steps,start=1e-4, end=2e-2)
         alphas=1-betas
         alphas_bar=torch.cumprod(alphas,0).to(device)
@@ -89,13 +90,13 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                                              shuffle=True, )
     if sampling_model=='score':
         model = ConditionalGuidedModel(num_steps, dz=dz).to(device)
-    elif sampling_model=='ddpm':
+    elif sampling_model=='ddpm' or sampling_model=='ddim':
         model = DiffusionModelWithEmbedding(input_dim=dataset_y.shape[1], 
                                 time_steps=num_steps, embedding_dim=16,
                                 cond_dim=dz).to(device)
     if sampling_model=='score':
         lr = 1e-2
-    elif sampling_model=='ddpm':
+    elif sampling_model=='ddpm' or sampling_model=='ddim':
         lr = 1e-3
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     num_epoch = 1500 
@@ -110,7 +111,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
             batch_y = batch[:, dz:]
             if sampling_model=='score':
                 loss=score_loss_fn(model, batch_y, batch_x, num_steps,device)
-            elif sampling_model=='ddpm':
+            elif sampling_model=='ddpm' or sampling_model=='ddim':
                 loss=diffusion_loss_fn(model, batch_y, batch_x,alphas_bar_sqrt, one_minus_alphas_bar_sqrt, num_steps,device)
             optimizer.zero_grad()
             loss.backward()
@@ -150,6 +151,17 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                                     betas=betas,
                                     num_steps=num_steps,
                                     device=device)
+            elif sampling_model=='ddim':
+                y_seq_crt = sample_from_ddim(model, 
+                                             num_samples=zzz_crt.shape[0], 
+                                             input_dim=yyy_crt.shape[1], 
+                                             cond=torch.tensor(zzz_crt).to(device).float(), 
+                                             alphas_bar_sqrt=alphas_bar_sqrt, 
+                                             one_minus_alphas_bar_sqrt=one_minus_alphas_bar_sqrt, 
+                                             num_steps=50, eta=0.0, device=device)
+                
+                
+                
         if  stat =='cmi':
             # compute T(x,pseudo_y,z). again, we note that when computing CMI, we use 1-nn to learn x|z, which is equivalent with our paper. see nnlscit.py
             crt_stat = NNCMI(xxx_crt, y_seq_crt[-1].detach().cpu().numpy(),
