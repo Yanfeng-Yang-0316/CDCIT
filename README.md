@@ -20,7 +20,7 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 
 2025.6.30, you can use return_samples = True to check generated samples! More visualization of samples can be found in visualize.ipynb.
 
-**2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulation. Originally a CDCIT need 60s, but it only need 10s using DDIM!**
+🎉🎉🎉🎉🎉🎉**2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulation. Originally a CDCIT need 60s, but it only need 10s using DDIM!**
 
 DDIM show case:
 ```python
