@@ -29,7 +29,7 @@ This code is built upon the [NNLSCIT](https://github.com/LeeShuai-kenwitch/NNLSC
 ## Update
 2025.4.19, highdim_XY.ipynb is updated to this repo. It can be used to test high-dimensional $X,Y,Z$. But you need to package it by yourself.
 
-2025.6.30, you can use return_samples = True to check generated samples! More visualization of samples can be found in visualize.ipynb. And you can change learning rate, batch size, hidden layer, etc. in the function **perform_diffusion_crt()**. Please check diffusion_crt.py.
+2025.6.30, you can use return_samples = True to check generated samples! More visualization of samples can be found in display/visualize.ipynb. And you can change learning rate, batch size, hidden layer, etc. in the function **perform_diffusion_crt()**. Please check diffusion_crt.py.
 
 👊😁🔥**2025.6.30, DDIM sampler is updated to highdim_XY.ipynb, diffusion_crt.py and model.py! Now you can use the faster DDIM sampler for simulations. Originally a CDCIT need 60s, but it only need 10s using DDIM!**
 
