@@ -11,7 +11,8 @@ from tqdm import tqdm
 def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
                   repeat=100, device=torch.device('cuda'), 
                   verbose=False, seed=None, stat='cmi',
-                  centralize=False,sampling_model='ddpm',return_samples=False):
+                  centralize=False,sampling_model='ddpm',batch_size = 2048, num_epoch = 1500,hidden_dim = 128,lr = 1e-3,
+                          return_samples=False):
     '''
     xxx,yyy,zzz: triple used to train diffusion model, learning Y|Z. and when computing CMI, we use 1-nn to learn X|Z. 
     you can see that in line 49,136 in nnlscit.py. in our paper, we wrote using diffusion model to learn X|Z and when computing CMI, we use 1-nn to learn Y|Z. 
@@ -57,6 +58,8 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     #get dim and sample size
     dz = zzz.shape[1]
     num = zzz.shape[0]
+    dim_x = xxx.shape[1]
+    dim_y = yyy.shape[1]
     
     # centralize
     if centralize:
@@ -87,39 +90,56 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
         one_minus_alphas_bar_sqrt=torch.sqrt(1-alphas_bar)
     
     # train conditional diffusion model
-    batch_size = 2048 # big batch size means faster training speed
+     # big batch size means faster training speed
     dataloader = torch.utils.data.DataLoader(torch.cat([dataset_x, dataset_y], dim=1), batch_size=batch_size,
                                              shuffle=True, )
     if sampling_model=='score':
-        model = ConditionalGuidedModel(num_steps, dz=dz).to(device)
+        model = ConditionalGuidedModel(num_steps, dz=dz,hidden_dim=hidden_dim).to(device)
     elif sampling_model=='ddpm' or sampling_model=='ddim':
         model = DiffusionModelWithEmbedding(input_dim=dataset_y.shape[1], 
-                                time_steps=num_steps, embedding_dim=16,
-                                cond_dim=dz).to(device)
-    if sampling_model=='score':
-        lr = 1e-2
-    elif sampling_model=='ddpm' or sampling_model=='ddim':
-        lr = 1e-3
+                                time_steps=num_steps, embedding_dim=64,
+                                cond_dim=dz,hidden_dim=hidden_dim).to(device)
+
+        
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
-    num_epoch = 1500 
+    
     if verbose == True:
         print('training diffusion model')
     ema2 = EMA(model)
-    for z in range(num_epoch):
-        total_loss = 0
-        for idx, batch in enumerate(dataloader):
-            model.train()
-            batch_x = batch[:, :dz]
-            batch_y = batch[:, dz:]
-            if sampling_model=='score':
-                loss=score_loss_fn(model, batch_y, batch_x, num_steps,device)
-            elif sampling_model=='ddpm' or sampling_model=='ddim':
-                loss=diffusion_loss_fn(model, batch_y, batch_x,alphas_bar_sqrt, one_minus_alphas_bar_sqrt, num_steps,device)
-            optimizer.zero_grad()
-            loss.backward()
-            torch.nn.utils.clip_grad_norm_(model.parameters(), 1.)
-            optimizer.step()
-            ema2.update(model)
+    if verbose == True:
+        for z in range(num_epoch):
+            total_loss = 0
+            for idx, batch in enumerate(dataloader):
+                model.train()
+                batch_x = batch[:, :dz]
+                batch_y = batch[:, dz:]
+                if sampling_model=='score':
+                    loss=score_loss_fn(model, batch_y, batch_x, num_steps,device)
+                elif sampling_model=='ddpm' or sampling_model=='ddim':
+                    loss=diffusion_loss_fn(model, batch_y, batch_x,alphas_bar_sqrt, one_minus_alphas_bar_sqrt, num_steps,device)
+                optimizer.zero_grad()
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.)
+                optimizer.step()
+                ema2.update(model)
+                total_loss += loss.item()
+            print(z,total_loss)
+    else:
+        for z in range(num_epoch):
+            total_loss = 0
+            for idx, batch in enumerate(dataloader):
+                model.train()
+                batch_x = batch[:, :dz]
+                batch_y = batch[:, dz:]
+                if sampling_model=='score':
+                    loss=score_loss_fn(model, batch_y, batch_x, num_steps,device)
+                elif sampling_model=='ddpm' or sampling_model=='ddim':
+                    loss=diffusion_loss_fn(model, batch_y, batch_x,alphas_bar_sqrt, one_minus_alphas_bar_sqrt, num_steps,device)
+                optimizer.zero_grad()
+                loss.backward()
+                torch.nn.utils.clip_grad_norm_(model.parameters(), 1.)
+                optimizer.step()
+                ema2.update(model)
 
     # crt
     if verbose == True:
@@ -128,7 +148,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
     # compute T(x,y,z)
     if stat =='cmi':
 
-        original = NNCMI(xxx_crt, yyy_crt, zzz_crt, 1, 1, dz,      # if you want to try high-dim x,y, don't forgot to change here
+        original = NNCMI(xxx_crt, yyy_crt, zzz_crt, dim_x, dim_y, dz,      # if you want to try high-dim x,y, don't forgot to change here
                          classifier='xgb', normalize=False)
     elif stat =='corr':
         original = correlation(xxx_crt,yyy_crt)
@@ -167,7 +187,7 @@ def perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
         if  stat =='cmi':
             # compute T(x,pseudo_y,z). again, we note that when computing CMI, we use 1-nn to learn x|z, which is equivalent with our paper. see nnlscit.py
             crt_stat = NNCMI(xxx_crt, y_seq_crt[-1].detach().cpu().numpy(),
-                             zzz_crt, 1, 1, dz, classifier='xgb',
+                             zzz_crt, dim_x, dim_y, dz, classifier='xgb',
                              normalize=False)
         elif  stat =='corr':
             crt_stat = correlation(xxx_crt,y_seq_crt[-1].detach().cpu().numpy())

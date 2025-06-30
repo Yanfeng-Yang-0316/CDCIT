@@ -20,12 +20,12 @@ class ConditionalLinear(nn.Module):
 
 
 class ConditionalGuidedModel(nn.Module):
-    def __init__(self, num_steps, dz):
+    def __init__(self, num_steps, dz,hidden_dim = 128):
         super().__init__()
-        self.lin1 = ConditionalLinear(dz + 1, 128, num_steps)
-        self.lin2 = ConditionalLinear(128, 128, num_steps)
-        self.lin3 = ConditionalLinear(128, 128, num_steps)
-        self.lin4 = nn.Linear(128, 1)
+        self.lin1 = ConditionalLinear(dz + 1, hidden_dim, num_steps)
+        self.lin2 = ConditionalLinear(hidden_dim, hidden_dim, num_steps)
+        self.lin3 = ConditionalLinear(hidden_dim, hidden_dim, num_steps)
+        self.lin4 = nn.Linear(hidden_dim, 1)
 
     def forward(self, x, y_t,  t):
         eps_pred = torch.cat((x, y_t, ), dim=1)
@@ -41,14 +41,15 @@ class DiffusionModelWithEmbedding(nn.Module):
                  input_dim, 
                  time_steps, 
                  embedding_dim,
-                 cond_dim):
+                 cond_dim,
+                hidden_dim = 128):
         super(DiffusionModelWithEmbedding, self).__init__()
         self.time_embedding = nn.Embedding(time_steps, embedding_dim)
-        self.fc1 = nn.Linear(input_dim + embedding_dim+cond_dim, 128)
-        self.fc2 = nn.Linear(128, 128)
-        self.fc3 = nn.Linear(128, 128)
-        self.fc4 = nn.Linear(128, input_dim)
-        self.relu = nn.SELU()
+        self.fc1 = nn.Linear(input_dim + embedding_dim+cond_dim, hidden_dim)
+        self.fc2 = nn.Linear(hidden_dim, hidden_dim)
+        self.fc3 = nn.Linear(hidden_dim, hidden_dim)
+        self.fc4 = nn.Linear(hidden_dim, input_dim)
+        self.relu = nn.SiLU()
 
 
 
@@ -60,3 +61,5 @@ class DiffusionModelWithEmbedding(nn.Module):
         x = self.relu(self.fc2(x))
         x = self.relu(self.fc3(x))
         return self.fc4(x)
+
+

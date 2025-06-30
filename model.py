@@ -82,6 +82,7 @@ def make_beta_schedule(schedule="linear", num_timesteps=1000, start=1e-4, end=2e
 # ddpm like sampling note the x_t in this function is not necessarily the X in triple (X,Y,Z)
 def sample_from_diff(model, num_samples, input_dim,cond, alphas_bar_sqrt, one_minus_alphas_bar_sqrt, betas, num_steps, device):
     traj=[]
+    model.eval()
     x_t = torch.randn(num_samples, input_dim).to(device)  
     traj.append(x_t)
     for t in reversed(range(num_steps)):
@@ -105,6 +106,7 @@ def sample_from_ddim(model, num_samples, input_dim, cond,
                      alphas_bar_sqrt, one_minus_alphas_bar_sqrt, 
                      num_steps, eta=0.0, device='cuda'):
     traj = []
+    model.eval()
     x_t = torch.randn(num_samples, input_dim).to(device)
     traj.append(x_t)
     
