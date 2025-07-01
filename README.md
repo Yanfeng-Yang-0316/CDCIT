@@ -44,7 +44,7 @@ xxx_crt=total_x[500:,:]
 yyy_crt=total_y[500:,:]
 zzz_crt=total_z[500:,:]
 p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
-                            repeat=114, device=torch.device('cuda'), 
+                            repeat=100, device=torch.device('cuda'), 
                             verbose=False, seed=514, stat='cmi',sampling_model='ddim') # ← see here
 
 print(p_val)
@@ -58,7 +58,7 @@ xxx_crt=total_x[:,:]
 yyy_crt=total_y[:,:]
 zzz_crt=total_z[:,:]
 p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
-                            repeat=114, device=torch.device('cuda'), 
+                            repeat=100, device=torch.device('cuda'), 
                             verbose=False, seed=810, stat='cmi',sampling_model='ddim') 
 
 print(p_val)
