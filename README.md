@@ -48,6 +48,19 @@ p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
                             verbose=False, seed=514, stat='cmi',sampling_model='ddim') # ← see here
 
 print(p_val)
+# you can also use full samples to train & test:
+xxx=total_x[:,:]
+yyy=total_y[:,:]
+zzz=total_z[:,:]
+
+xxx_crt=total_x[:,:]
+yyy_crt=total_y[:,:]
+zzz_crt=total_z[:,:]
+p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt, 
+                            repeat=114, device=torch.device('cuda'), 
+                            verbose=False, seed=514, stat='cmi',sampling_model='ddim') 
+
+print(p_val)
 ```
 
 ## Upcoming
