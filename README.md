@@ -67,8 +67,7 @@ print(p_val)
 ```
 
 ## Upcoming
-...
-
+Some faster samplers??? Some newer diffusion models?
 ## Reference
 ```bibtex
 @article{Yang_2025_cdcit, 
