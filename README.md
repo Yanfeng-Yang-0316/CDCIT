@@ -66,7 +66,7 @@ p_val=perform_diffusion_crt(xxx, yyy, zzz, xxx_crt, yyy_crt, zzz_crt,
 print(p_val)
 ```
 
-2026.2.9， Evaluation of the conditional DDPM can be found in conditional_quantile_mse. The DDPM is more stable than score matching!
+2026.2.9， Evaluation of the conditional DDPM can be found in conditional_quantile_mse. The DDPM is more stable than score matching, and the process is more formal!
 
 ## Upcoming
 Some faster samplers??? Some newer diffusion models?
