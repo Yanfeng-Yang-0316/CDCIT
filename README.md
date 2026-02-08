@@ -69,7 +69,7 @@ print(p_val)
 2026.2.9， Evaluation of the conditional DDPM can be found in conditional_quantile_mse. The DDPM is more stable than score matching, and the evaluation process is more formal!
 
 ## Upcoming
-A new CIT with fast sampler is coming...
+A new CIT with fast sampler is coming... It is faster, and more innovative.
 ## Reference
 ```bibtex
 @article{Yang_2025_cdcit, 
