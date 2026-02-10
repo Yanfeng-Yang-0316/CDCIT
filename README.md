@@ -5,7 +5,8 @@ $H_0: X ⫫ Y|Z  \quad \text{  v.s. } \quad  H_1:X \not ⫫ Y|Z$
 
 which is an important problem in statistics, machine learning and causal structure learning. The random variables $X, Y, Z$ can represent gene expression levels, a characterization of a particular disease, or clinical information. And they may also be high-dimensional random variables. We utilize [Diffusion Models](https://arxiv.org/abs/2011.13456) and the [Conditional Randomization Test (CRT)](https://arxiv.org/abs/2304.04183) to test the conditional independence relationships.
 
-
+## Big News
+A faster conditional independence test specially designed for PC algorithm can be found in [https://arxiv.org/abs/2602.08315]!!!
 
 ## Usage
 There is detailed description of function **perform_diffusion_crt()** in diffusion_crt.py. Show_case.ipynb also provides the usage.
@@ -68,8 +69,7 @@ print(p_val)
 
 2026.2.9， Evaluation of the conditional DDPM can be found in conditional_quantile_mse. The DDPM is more stable than score matching, and the evaluation process is more formal!
 
-## Upcoming
-A new CIT with fast sampler is coming... It is faster, and more innovative.
+
 ## Reference
 ```bibtex
 @article{Yang_2025_cdcit, 
